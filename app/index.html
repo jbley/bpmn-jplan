@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>BPMN Jplan</title>
+
+  <link rel="stylesheet" href="css/diagram-js.css" />
+  <link rel="stylesheet" href="vendor/bpmn-font/css/bpmn-embedded.css" />
+  <link rel="stylesheet" href="vendor/diagram-js-minimap/assets/diagram-js-minimap.css" />
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</head>
+<body id="body-content">
+  <div class="content with-diagram" id="js-drop-zone">
+
+    <div class="message intro">
+      <div class="note">
+        Arrastra un diagrama para empezar.
+      </div>
+    </div>
+
+    <div class="message error">
+      <div class="note">
+        <p>No se ha podido mostrar el diagrama BPMN.</p>
+
+        <div class="details">
+          <span>Import Error Details</span>
+          <pre></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="canvas" id="js-canvas"></div>
+    <div class="properties-panel-parent" id="js-properties-panel"></div>
+  </div>
+
+  <div id="botones-menu" class="btn-group" role="group">
+      <button id="js-create-diagram" type="button" class="btn btn-secondary"><i class="fa fa-plus"></i> Nuevo diagrama</button>
+      
+      <button id="js-open-diagram" class="btn btn-secondary"><i class="fa fa-folder-open"></i></button>
+      
+    <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-download"></i> Descargas
+        </button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a id="js-download-diagram" class="dropdown-item disabled" href title="Descargar BPMN"><i class="fa fa-file-code-o"></i> Descargar BPMN</a>
+            <a id="js-download-svg" class="dropdown-item disabled" href title="Descargar SVG"><i class="fa fa-image"></i> Descargar SVG</a>
+        </div>
+    </div>
+    <button id="full-screen-mode" class="btn btn-secondary"><i class="fa fa-expand"></i></button>    
+  </div>    
+  <script src="index.js"></script>  
+</body>
+</html>
