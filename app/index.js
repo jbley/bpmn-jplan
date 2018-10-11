@@ -14,6 +14,7 @@ import diagramXML from '../resources/newDiagram.bpmn';
 
 var container = $('#js-drop-zone');
 var canvas = $('#js-canvas');
+var homePage = true;
 
 var bpmnModeler = new BpmnModeler({
   container: canvas,
@@ -51,8 +52,50 @@ function openDiagram(xml) {
       container
         .removeClass('with-error')
         .addClass('with-diagram');
+        homePage = false;
     }
   });
+}
+
+///////// Open Local File /////////
+
+$("#bpmn-file-choose").change(function(){
+    var file = this.files[0];
+    var reader = new FileReader();
+
+    reader.onloadend = function(e) {
+      var xml = e.target.result;
+      openDiagram(xml);
+    };
+    
+    reader.readAsText(file);
+});
+
+///////// Save /////////
+
+$("#js-save-diagram").click(function(){
+    console.log("1. jquery save entered");
+    save();
+});
+
+function save() {
+    saveDiagram(function(err, xml){
+        localStorage.setItem('currentFile', xml);
+    });
+}
+
+///////// Modal /////////
+
+$("#modal-confirm").click(function() {
+    createNewDiagram();
+    $("#confirmModal .close").click();
+});
+
+function confirmUnsaved(){    
+    if ($('#confirmModal').is('#confirmModal')) {      
+      jQuery.noConflict();
+      jQuery('#confirmModal').modal();
+    }
 }
 
 function saveSVG(done) {
@@ -60,7 +103,6 @@ function saveSVG(done) {
 }
 
 function saveDiagram(done) {
-
   bpmnModeler.saveXML({ format: true }, function(err, xml) {
     done(err, xml);
   });
@@ -100,7 +142,7 @@ function registerFileDrop(container, callback) {
 }
 
 
-////// file drag / drop ///////////////////////
+////// file drag / drop ////// 
 
 // check file api availability
 if (!window.FileList || !window.FileReader) {
@@ -114,12 +156,14 @@ if (!window.FileList || !window.FileReader) {
 // bootstrap diagram functions
 
 $(function() {
-
   $('#js-create-diagram').click(function(e) {
     e.stopPropagation();
-    e.preventDefault();
-
-    createNewDiagram();
+    e.preventDefault();     
+    
+    if(!homePage)
+        confirmUnsaved();
+    else
+        createNewDiagram();
   });
 
   var downloadLink = $('#js-download-diagram');
@@ -133,10 +177,9 @@ $(function() {
   });
 
   function setEncoded(link, name, data) {
-      
     var encodedData = encodeURIComponent(data);
 
-    if (data) {      
+    if (data) {
       link.removeClass('disabled')
           .addClass('active')
           .attr({
@@ -162,18 +205,18 @@ $(function() {
 
   bpmnModeler.on('commandStack.changed', exportArtifacts);
     
-  // Full screen mode:  
-  $('#full-screen-mode').click(function() {    
-    var elem = document.getElementById("body-content"); 
+    // Full screen mode:  
+    $('#full-screen-mode').click(function() {    
+        var elem = document.getElementById("body-content"); 
 
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { /* Firefox */
-      elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE/Edge */
-      elem.msRequestFullscreen();
-    }    
-  });
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { /* Firefox */
+          elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE/Edge */
+          elem.msRequestFullscreen();
+        }    
+    });
 });
